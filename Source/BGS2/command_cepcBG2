@@ -1,27 +1,34 @@
 !title
-READ "./cepc.lat.by1.5mm.7.25.70905_slice.sad";
-!READ "./CEPC_RING_v20171218_by_1.5mm_sext_fam-new1_slice.sad";
+READ "/cefs/higgs/shihy/work/cepc_bkg/Libs/cepc_lat.sad";
 MOMENTUM = 120000000000 ;
 FFS USE=RING;
 cell;
 calc;emit;
-Get["/cefs/CEPCMPI/baisha/beamloss/20180112/higgs/BeamGas2/zhangy/CEPC_BG_lib.h"];
-Get["/cefs/CEPCMPI/baisha/beamloss/20180112/higgs/BeamGas2/zhangy/CEPC_BG_lib2.h"];
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib1.h"];
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib2.h"];
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib3.h"];
 
 FFS;
 
 T0[];
 SetAperture[];
+InsertCollimator[];
 SetIpParameter[];
 T1[];
 
-SetEleList[1.];
+cir=LINE["S",-1];
+CutLength=200;
+delta=0.1;
+DoDriftSlice[CutLength,delta];
+DoBendSlice[CutLength,delta];
+
+SetEleList[0.1];
 !PrintEleList[];
 
 
 $FORM = "S15.7";
 fin = "BG2135.inp";
-fout= "BG2135.out";
+fout= "BG2_200_10cm.out";
 nturns = 40;
 !!!beampipe
 !p1 = 1185;
@@ -30,34 +37,29 @@ nturns = 40;
 !NIP3 = 17486;
 !!!beampipe_newlattice
 p1 = 1188;
-p2 = 31855;
-p3 = 33042;
-NIP3 = 17537;
+p2 = LINE["POSITION","APT2.7168"];
+p3 = LINE["POSITION","IP12"];
+NIP3 = LINE["POSITION","IP3"];
 
 fn = OpenRead[fin];
 fnwrite = OpenWrite[fout];
 
-cir=LINE["S",-1];
 bth0=1.5e11*242/(61.94*60*60)/2997.43/100016.35;
-nt=1000;
-
-totalpart=0;
+nt=10000;
 
 For[i=1,i<=Length[startEleList]-1,i++,
-If[startEleList[i][2]>=cir-200,
+If[startEleList[i][2]>=cir-CutLength,
 Nparticles=Round[bth0*nt*(startEleList[i+1][2]-startEleList[i][2])];
 MakeBTHdistribution[Nparticles,startEleList[i][1]];
-!MakeBGS2distribution[];
 !Print[beamR];
-totalpart=totalpart+Length[beamR[2][6]];
 Print[startEleList[i][1],"th element ",startEleList[i][3],".  ",startEleList[i+1][2]-startEleList[i][2],"m long, ",Length[beamR[2][6]]," events generated here"];
 
-If[startEleList[i][1]<p2,Print["Track2"];Trackmulti2[beamR,nturns,Nparticles,p1,p2,p3],Print["Track3"];Trackmulti3[beamR,nturns,Nparticles,p1,p2,p3]];
+If[startEleList[i][1]<p2,Print["Track2"];TrackSingle1[beamR,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3]];
+!If[startEleList[i][1]<p2,Print["Track2"];Trackmulti2[beamR,nturns,Nparticles,p1,p2,p3],Print["Track3"];Trackmulti3[beamR,nturns,Nparticles,p1,p2,p3]];
 !Print[beamR];
 ];
 ];
 
-Print[totalpart];
 
 Close[fn];
 Close[fnwrite];
