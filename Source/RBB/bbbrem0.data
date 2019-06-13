@@ -1,0 +1,7 @@
+240                 sqrt(s), GeV
+0.02                minimum photon energy fraction
+200000              number of events to generate
+2                   type of random number generator to use
+1                   randseed
+3.56D-21            rbsc
+rbbout.dat          outputfile

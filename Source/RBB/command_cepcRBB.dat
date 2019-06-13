@@ -1,0 +1,71 @@
+!title
+!READ "./cepc.lat.by1.5mm.35.1.obj4_slice.sad";
+READ "./cepc.lat.by1.5mm.7.25.70905_slice.sad";
+MOMENTUM = 120000000000 ;
+FFS USE=RING;
+cell;
+calc;emit;
+
+Get["./CEPC_BG_lib.h"];
+Get["./CEPC_BG_lib2.h"];
+
+FFS;
+
+T0[];
+SetAperture[];
+SetIpParameter[];
+T1[]; 
+
+
+$FORM = "S15.7";
+fin = "rbb15.dat";
+fout = "RBBoutput_15.dat";
+Nparticles = 200000;
+nturns = 40;
+!!!slice2Q
+!p1 = 1186;
+!p2 = 16131;
+!p3 = 17316;
+!NIP3 = 8658;
+!!!slice2D
+!p1 = 1186;
+!p2 = 36261;
+!p3 = 37446;
+!NIP3 = 16424;
+!!!slice2B
+!p1 = 1186;
+!p2 = 66397;
+!p3 = 67582;
+!NIP3 = 26783;
+!!!beampipe_oldlattice
+!p1 = 1185;
+!p2 = 31753;
+!p3 = 32935;
+!NIP3 = 17486;
+!!!beampipe_newlattice
+p1 = 1188;
+p2 = 31855;
+p3 = 33042;
+NIP3 = 17537;
+
+
+fn = OpenRead[fin];
+fnwrite = OpenAppend[fout];
+
+
+!MakeRBBdistribution[];
+MakeBSdistribution[];
+
+Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3];
+!Trackmulti2[beamR,nturns,Nparticles,p1,p2,p3];
+!Trackmulti3[beamR,nturns,Nparticles,p1,p2,p3];
+
+Close[fn];
+Close[fnwrite];
+
+T1[];
+
+end;
+abort;
+
+
