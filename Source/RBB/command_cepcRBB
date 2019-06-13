@@ -1,0 +1,81 @@
+!title
+READ "/cefs/higgs/shihy/work/cepc_bkg/Libs/cepc_lat.sad";
+MOMENTUM = 120000000000 ;
+FFS USE=RING;
+cell;
+calc;emit;
+
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib1.h"];
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib2.h"];
+Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib3.h"];
+
+FFS;
+
+T0[];
+SetAperture[];
+InsertCollimator[];
+SetIpParameter[];
+T1[]; 
+
+
+$FORM = "S15.7";
+fin = "rbbdp.dat";
+fout = "RBBoutput_15.dat";
+Nparticles = 200000;
+nturns = 40;
+!!!slice2Q
+!p1 = 1186;
+!p2 = 16131;
+!p3 = 17316;
+!NIP3 = 8658;
+!!!slice2D
+!p1 = 1186;
+!p2 = 36261;
+!p3 = 37446;
+!NIP3 = 16424;
+!!!slice2B
+!p1 = 1186;
+!p2 = 66397;
+!p3 = 67582;
+!NIP3 = 26783;
+!!!beampipe_oldlattice
+!p1 = 1185;
+!p2 = 31753;
+!p3 = 32935;
+!NIP3 = 17486;
+!!!beampipe_newlattice
+p1 = 1188;
+p2 = LINE["POSITION","APT2.7168"];
+p3 = LINE["POSITION","IP12"];
+NIP3 = LINE["POSITION","IP3"];
+
+
+fn = OpenRead[fin];
+fnwrite = OpenAppend[fout];
+
+
+MakeBSdistribution[];
+
+ii=1;
+startpos=beamR[[1]];
+beam1=beamR;
+nsur1=Apply[Plus,beam1[[2,7]]];
+beam2=Tracking[beam1,p1];
+nsur2=Apply[Plus,beam2[[2,7]]];
+
+Do[
+If[beam1[[2,7,np]]==1&&beam2[[2,7,np]]==0,beami = {beam1[[1]],{{beam1[[2,1,np]]},{beam1[[2,2,np]]},{beam1[[2,3,np]]},{beam1[[2,4,np]]},{beam1[[2,5,np]]},{beam1[[2,6,np]]},{beam1[[2,7,np]]}}},Continue[]];
+Do[ beamO = TrackParticles[beami,iii];
+If[beamO[[2,7,1]]==0,Losswrite1[];Break[]];
+beami=beamO
+,{iii,beam1[[1]]+1,p1}]
+,{np,1,Nparticles}
+];
+
+Close[fn];
+Close[fnwrite];
+
+T1[];
+
+end;
+abort;
