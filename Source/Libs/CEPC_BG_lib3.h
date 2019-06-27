@@ -113,7 +113,7 @@ TrackSingle3[beamR_,p1_]:=Module[{},
   startPos=beams4[[1]];
   nsurs4=Apply[Plus,beams4[[2,7]]];
   beams5=Tracking[beams4,p1];
-  nsurs4=Apply[Plus,beams5[[2,7]]];
+  nsurs5=Apply[Plus,beams5[[2,7]]];
   Do[
   If[beams4[[2,7,npp]]==1&&beams5[[2,7,npp]]==0,beami = {beams4[[1]],{{beams4[[2,1,npp]]},{beams4[[2,2,npp]]},{beams4[[2,3,npp]]},{beams4[[2,4,npp]]},{beams4[[2,5,npp]]},{beams4[[2,6,npp]]},{beams4[[2,7,npp]]}}},Continue[]];
   Do[beamO = TrackParticles[beami,iii];
