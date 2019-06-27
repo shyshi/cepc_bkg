@@ -117,7 +117,7 @@ TrackSingle3[beamR_,p1_]:=Module[{},
   Do[
   If[beams4[[2,7,npp]]==1&&beams5[[2,7,npp]]==0,beami = {beams4[[1]],{{beams4[[2,1,npp]]},{beams4[[2,2,npp]]},{beams4[[2,3,npp]]},{beams4[[2,4,npp]]},{beams4[[2,5,npp]]},{beams4[[2,6,npp]]},{beams4[[2,7,npp]]}}},Continue[]];
   Do[beamO = TrackParticles[beami,iii];
-  If[beamO[[2,7,1]]==0,Losswrite2[];Break[]];
+  If[beamO[[2,7,1]]==0,Losswrite1[];Break[]];
   beami=beamO
   ,{iii,1,p1}],
   {npp,1,Nparticles}
