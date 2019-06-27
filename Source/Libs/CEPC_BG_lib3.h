@@ -119,7 +119,7 @@ TrackSingle3[beamR_,p1_]:=Module[{},
   Do[beamO = TrackParticles[beami,iii];
   If[beamO[[2,7,1]]==0,Losswrite1[];Break[]];
   beami=beamO
-  ,{iii,1,p1}],
+  ,{iii,2,p1}],
   {npp,1,Nparticles}
   ];
 ];
