@@ -3,10 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import dblquad,quad
 from scipy import special
-import time
-
-start=time.clock()
-
 
 alpha=1/137.04
 vc=2.9979*10**8
@@ -66,24 +62,10 @@ def mkBG2():
                 output.append((j+1)*(hlim-llim)/nbins+llim)
                 break
     return output
-'''
-xx=np.linspace(0.01,1,10000)
-yy=[dsigmade(i) for i in xx]
-
-plt.plot(xx,yy)
-plt.yscale('log')
-plt.show()
-'''
 
 xxx=mkBG2()
 fn=open('BG2135.inp','w+')
-print(len(xxx))
 for i in xxx:
     fn.write(str(-i))
     fn.write("\n")
 fn.close()
-
-
-
-end=time.clock()
-print("%f s used" % (end-start))

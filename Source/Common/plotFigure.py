@@ -15,7 +15,7 @@ for i in range(1,turns):
                         f = ROOT.TFile(rootfile,'READ')
                         t = f.Get('Run1')
                         for event in t:
-                                hist.fill(t.LOC)
+                                hist.Fill(t.LOC)
                         os.chdir("../")
                 else:
                         os.chdir("../")
@@ -27,4 +27,3 @@ c.cd()
 hist.Draw()
 c.Update()
 c.SaveAs("Figure1.pdf")
-                
