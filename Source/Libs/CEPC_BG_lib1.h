@@ -248,7 +248,7 @@ MakeHistgram[Hlist_,Hrange_,Nbin_,TotalIntegral_,flabel_]:=Module[{},
  histdata
 ];
           
-MakeRBBdistribution[]:=Module[{},
+MakeRBBdistributionBBbrem[]:=Module[{},
           Print["fn =",fn];
           Print["Nparicles = ",Nparticles];
           BBbremsData = {};
@@ -258,14 +258,15 @@ MakeRBBdistribution[]:=Module[{},
              dd4 = Read[fn,Real];
              dd5 = Read[fn,Real];
              dd6 = Read[fn,Real];
-             dd = {dd1,dd2,dd3,dd4};
+             dd = {dd2,dd4,dd6};
              AppendTo[BBbremsData,dd],{ii,1,Nparticles}];
 
           EGeV = 120;
           Print["The energy is ", EGeV];
-       xpDist0 = -BBbremsData[[,1]]/EGeV;
-       ypDist0 = BBbremsData[[,2]]/EGeV;
-       zpDist0 = -BBbremsData[[,3]];
+       xpDist0 = BBbremsData[[,1]];
+       ypDist0 = BBbremsData[[,2]];
+       !zpDist0 = BBbremsData[[,3]];
+       dpDist0 = BBbremsData[[,3]];
 
   sigmaxrandom = MakeRandomGauss[Nparticles,sigmax];
   sigmapxrandom = MakeRandomGauss[Nparticles,sigmapx]; 
@@ -280,7 +281,8 @@ MakeRBBdistribution[]:=Module[{},
   ypDist = ypDist0 + sigmapyrandom; 
 !  ypDist = sigmapyrandom;
   zDist = sigmazrandom;
-  eeDist = (BBbremsData[[,4]] - EGeV)/EGeV +  sigmaerandom;
+!  eeDist = (BBbremsData[[,4]] - EGeV)/EGeV +  sigmaerandom;
+  eeDist = zpDist0 + sigmaerandom;
 !  eeDist = sigmaerandom;
   beamR = {1,{xDist,xpDist,yDist,ypDist,zDist,eeDist,Table[1,{Nparticles}]}};
 Print["the number of particles is = ",Length[beamR[[2,7]]]];
