@@ -4,4 +4,5 @@
 2                   type of random number generator to use
 1                   randseed
 3.56D-21            rbsc
-rbbout.dat          outputfile
+rbbeout.dat         electronoutputfile
+rbbpout.dat         photonoutputfile
