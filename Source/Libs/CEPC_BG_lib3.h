@@ -428,3 +428,23 @@ ConvertFLUKAdistribution[startPos_]:=Module[{},
 	beamR = {startPos,{xDist,xpDist,yDist,ypDist,zDist,eeDist,Table[1,{Nparticles}]}};
 	Print["the number of particles is = ",Length[beamR[[2,7]]]];
 ];
+
+TrackCollimator[beamR_,pCo_,Nparticles_]:=Module[{},
+!This module is used to output the collimator losts
+  pBfCo=pCo-1;
+  pAfCo=pCo+1;
+  beamBfCo=Tracking[beamR,pBfCo];
+  beamAfCo=Tracking[beamBfCo,pAfCo];
+  Do[
+  If[beamBfCo[[2,7,npp]]==1&&beamAfco[[2,7,npp]]==0,
+  beami = {beamBfCo[[1]],{{beamBfCo[[2,1,npp]]},{beamBfCo[[2,2,npp]]},{beamBfCo[[2,3,npp]]},{beamBfCo[[2,4,npp]]},{beamBfCo[[2,5,npp]]},{beamBfCo[[2,6,npp]]},{beamBfCo[[2,7,npp]]}}};
+  beam0 = TrackParticles[beami,pCo];
+  sCo=LINE["S",pCo];
+  cir=LINE["S",-1];
+  If[sCo<cir/2,Losswrite1;Losswrite2];
+  ];
+  ,{npp,1,Nparticles}
+  ];
+
+  beamR=beamAfCo;
+];
