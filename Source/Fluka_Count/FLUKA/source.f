@@ -5,9 +5,9 @@
 *
       SUBROUTINE SOURCE ( NOMORE )
 
-      INCLUDE '(DBLPRC)'
-      INCLUDE '(DIMPAR)'
-      INCLUDE '(IOUNIT)'
+      INCLUDE 'dblprc.inc'
+      INCLUDE 'dimpar.inc'
+      INCLUDE 'iounit.inc'
 *
 *----------------------------------------------------------------------*
 *                                                                      *
@@ -33,14 +33,14 @@
 *                                                                      *
 *----------------------------------------------------------------------*
 *
-      INCLUDE '(BEAMCM)'
-      INCLUDE '(FHEAVY)'
-      INCLUDE '(FLKSTK)'
-      INCLUDE '(IOIOCM)'
-      INCLUDE '(LTCLCM)'
-      INCLUDE '(PAPROP)'
-      INCLUDE '(SOURCM)'
-      INCLUDE '(SUMCOU)'
+      INCLUDE 'beamcm.inc'
+      INCLUDE 'fheavy.inc'
+      INCLUDE 'flkstk.inc'
+      INCLUDE 'ioiocm.inc'
+      INCLUDE 'ltclcm.inc'
+      INCLUDE 'paprop.inc'
+      INCLUDE 'sourcm.inc'
+      INCLUDE 'sumcou.inc'
 *
       LOGICAL LFIRST
 *
@@ -141,7 +141,7 @@
       AKNSHR (NPFLKA) = -TWOTWO
 *  Kinetic energy of the particle (GeV)
       READ(34,*) X,COSX,Y,COSY,Z,DP
-      TKEFLK (NPFLKA) = (1.0D0+DP)*120.0D0
+      TKEFLK (NPFLKA) = (1+DP)*120.0D0
 *  Particle momentum
 *     PMOFLK (NPFLKA) = PBEAM
       PMOFLK (NPFLKA) = SQRT ( TKEFLK (NPFLKA) * ( TKEFLK (NPFLKA)
@@ -160,6 +160,7 @@
       XFLK   (NPFLKA) = X*100.0D0
       YFLK   (NPFLKA) = Y*100.0D0
       ZFLK   (NPFLKA) = Z*100.0D0
+      WRITE(LUNOUT,*) X,COSX
 *  Calculate the total kinetic energy of the primaries: don't change
       IF ( ILOFLK (NPFLKA) .EQ. -2 .OR. ILOFLK (NPFLKA) .GT. 100000 )
      &   THEN

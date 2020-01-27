@@ -5,9 +5,9 @@
 *                                                                      *
       SUBROUTINE MGDRAW ( ICODE, MREG )
 
-      INCLUDE '(DBLPRC)'
-      INCLUDE '(DIMPAR)'
-      INCLUDE '(IOUNIT)'
+      INCLUDE 'dblprc.inc'
+      INCLUDE 'dimpar.inc'
+      INCLUDE 'iounit.inc'
 *
 *----------------------------------------------------------------------*
 *                                                                      *
@@ -26,17 +26,17 @@
 *                                                                      *
 *----------------------------------------------------------------------*
 *
-      INCLUDE '(CASLIM)'
-      INCLUDE '(COMPUT)'
-      INCLUDE '(SOURCM)'
-      INCLUDE '(FHEAVY)'
-      INCLUDE '(FLKSTK)'
-      INCLUDE '(GENSTK)'
-      INCLUDE '(MGDDCM)'
-      INCLUDE '(PAPROP)'
-      INCLUDE '(QUEMGD)'
-      INCLUDE '(SUMCOU)'
-      INCLUDE '(TRACKR)'
+      INCLUDE 'caslim.inc'
+      INCLUDE 'comput.inc'
+      INCLUDE 'sourcm.inc'
+      INCLUDE 'fheavy.inc'
+      INCLUDE 'flkstk.inc'
+      INCLUDE 'genstk.inc'
+      INCLUDE 'mgddcm.inc'
+      INCLUDE 'paprop.inc'
+      INCLUDE 'quemgd.inc'
+      INCLUDE 'sumcou.inc'
+      INCLUDE 'trackr.inc'
 *
       DIMENSION DTQUEN ( MXTRCK, MAXQMG )
 *
@@ -91,7 +91,7 @@
          CALL GEOR2N ( MREG, MRGNAM, IERR1 )
          CALL GEOR2N ( NEWREG, NRGNAM, IERR2 )
          IF (IERR1 .NE. 0 .OR. IERR2 .NE. 0) STOP "Error"
-         IF (MREG .EQ. 3 .AND. NEWREG .EQ. 4 .AND. JTRACK
+         IF (MREG .EQ. 4 .AND. NEWREG .EQ. 3 .AND. JTRACK
      &       .EQ. 3) THEN
             WRITE(LUNOUT,*) MREG,NEWREG
             WRITE(88,'(1P,8G25.10)') XSCO, YSCO, ZSCO, ETRACK,         
