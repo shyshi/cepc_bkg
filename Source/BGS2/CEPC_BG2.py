@@ -13,7 +13,7 @@ from ROOT import gRandom,TH1F,TCanvas,TFile,TTree
 #pho=pp/kb/T
 
 
-eta=0.015#[0.005,0.01,0.015,0.02,0.025,0.03] //acceptance
+eta=input("Please input the energy acceptance:")#[0.005,0.01,0.015,0.02,0.025,0.03] //acceptance
 zz1=8. #for oxygen
 zz2=6 #for carbon
 
