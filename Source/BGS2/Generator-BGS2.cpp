@@ -35,7 +35,12 @@ int main()
         randomChain.push_back(vRandom);        
     }
     randomChain.push_back(hlim);
-    sort(randomChain.begin(),randomChain.end());
+    for (vector<double>::iterator it = randomChain.begin(); it != randomChain.end(); ++it)
+    {
+        cout << *it;
+        cout << "\n";
+    }
+    /*sort(randomChain.begin(),randomChain.end());
     vector<double> xbin;
     xbin.push_back(*randomChain.begin());
     for (int i=1; i<nbins;i++)
@@ -65,6 +70,6 @@ int main()
     {
         cout << *it;
         cout << "\n";
-    }
+    }*/
     return 0;
 }
