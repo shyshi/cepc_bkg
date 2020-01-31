@@ -11,9 +11,10 @@ Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib3.h"];
 
 FFS;
 
+listCo={9539,9549,25563,25576};
 T0[];
 SetAperture[];
-InsertCollimator[];
+InsertCollimator[listCo];
 SetIpParameter[];
 T1[];
 
@@ -70,7 +71,7 @@ Close[flostin];
 
 
 !If[i<p2,Print["Track2"];TrackSingle1[beamR,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3]];
-Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3];
+Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3];
 
 ];
 
@@ -86,7 +87,7 @@ Write[flostin,LINE["S",i],' ',beamR[[2,1,count]],' ',beamR[[2,2,count]],' ',beam
 ];
 Close[flostin];
 
-If[i<p2,Print["Track2"];TrackSingle1[beamR,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3]];
+If[i<p2,Print["Track2"];TrackSingle1[beamR,listCo,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3]];
 
 ];
 
