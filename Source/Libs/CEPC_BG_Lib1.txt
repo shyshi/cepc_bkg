@@ -4,33 +4,7 @@ SetAperture[]:=Module[{ll},
   BLApert = ExtractBeamLine[];
   ll = Length[BLApert];
   Print[ll];
-!================================================================================
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-15567-4]],{ii,15568+4,15973}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-15366-4]],{ii,15367+4,15567+4}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT1,2*ii-15356-4]],{ii,15357+4,15366+4}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-7976]],{ii,7977,7992}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii]],{ii,1,603}];
-!=================================================================================
-!!!!!slice of yuet of single ring
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-16009]],{ii,16010,17193}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT1,2*ii-15999]],{ii,16000,16009}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-8588]],{ii,8589,8604}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii]],{ii,1,667}];
-!!!!!slice to Q
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-15522]],{ii,15523,16115}];
-!!  Do[BLApert = BeamLine[Insert[BLApert,APT1,2*ii-15999]],{ii,16000,16009}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-8050]],{ii,8051,8065}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii]],{ii,1,593}];
-!!!!!slice to D
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-19838]],{ii,19839,26469}];
-!!  Do[BLApert = BeamLine[Insert[BLApert,APT1,2*ii-15999]],{ii,16000,16009}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-12077]],{ii,12078,12092}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii]],{ii,1,4331}];
-!!!!!slice to B
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-26847]],{ii,26848,43512}];
-!!  Do[BLApert = BeamLine[Insert[BLApert,APT1,2*ii-15999]],{ii,16000,16009}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii-19377]],{ii,19378,19392}];
-!  Do[BLApert = BeamLine[Insert[BLApert,APT,2*ii]],{ii,1,7390}];
+!!!! Slice of Mainly IR Region with CDR Design
 !!!!!set apertures of the beam pipe
   Do[BLApert = BeamLine[Insert[BLApert,APT0,2*ii-24796]],{ii,24797,24818}];
   Do[BLApert = BeamLine[Insert[BLApert,APTa,2*a-24785]],{a,24786,24796}];
@@ -190,11 +164,11 @@ SliceBend[BendName_,delta_]:=Module[{},
    FFS["CALC"];
    ];
 
-InsertCollimator[]:=Module[{},
-  BLApert = BeamLine[Insert[BLApert,APTX,25576]];
-  BLApert = BeamLine[Insert[BLApert,APTX,25563]];
-  BLApert = BeamLine[Insert[BLApert,APTX,9549]];
-  BLApert = BeamLine[Insert[BLApert,APTX,9539]];
+InsertCollimator[listCo_]:=Module[{},
+!! CDR Design, 4 Horizontal Collimators
+  For[iCo=Length[listCo],i<1,i--,
+    BLApert = BeamLine[Insert[BLApert,APTX,listCo[iCo]]];  
+  ];
   FFS["USE BLApert"];
   FFS["CELL"];
   FFS["CALC"];

@@ -22,6 +22,7 @@ Losswrite1[]:=Module[{},
 !This command is used to output the coordinates of lost particles downstream the IP    
     sl=LINE["S",(iii-2)];
     su=LINE["S",(iii-1)];
+    Print[su-sl];
     sss=(sl+su)/2;
     Write[fnwrite,ii,"   ",sss,"  ",beamO[[2,1,1]]," ",beamO[[2,2,1]]," ",beamO[[2,3,1]]," ",beamO[[2,4,1]]," ",beamO[[2,5,1]]," ",beamO[[2,6,1]]]
     ];
@@ -31,6 +32,7 @@ Losswrite2[]:=Module[{},
 !This command is used to output the coordinates of lost particles upstream the IP
     sl=LINE["S",(iii-2)];
     su=LINE["S",(iii-1)];
+    Print[su-sl];
     sss=(sl+su)/2-cir;
     Write[fnwrite,ii,"   ",sss,"  ",beamO[[2,1,1]]," ",beamO[[2,2,1]]," ",beamO[[2,3,1]]," ",beamO[[2,4,1]]," ",beamO[[2,5,1]]," ",beamO[[2,6,1]]]
     ]; 

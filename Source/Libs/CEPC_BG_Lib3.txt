@@ -102,6 +102,7 @@ MakeBSdistribution[]:=Module[{},
 	Print["the number of particles is = ",Length[beamR[[2,7]]]];
 ];
 
+! The Module used for generate the distribution of BTH and BGS2 with Generators based on Dr. Yue.
 MakeBTHdistribution[Nparticles_,pos_]:=Module[{},
         BBbremsData = {};
         Do[dd1 = Read[fn,Real];
@@ -127,6 +128,8 @@ MakeBTHdistribution[Nparticles_,pos_]:=Module[{},
 !        Print[BBbremsData[[,1]]];
 !        Print[beamR[2][6]];
 ];
+
+
 MakeBGS2distribution[]:=Module[{},
    Nparticles=100000;
    sigmaxrandom = MakeRandomGauss[Nparticles,sigmax];
@@ -172,65 +175,15 @@ ConvertFLUKAdistribution[startPos_]:=Module[{},
   Close[fn];
   Print[Nparticles];
 
-  finput="xs.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	xDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
-
-	finput="ys.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	yDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
-
-  finput="pxs.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	xpDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
-
-  finput="pys.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	ypDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
-
-  finput="zs.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	zDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
-
-  finput="des.dat";
-  fn=OpenRead[finput];
-	InputsData = {};
-	Do[dd1 = Read[fn,Real];
-	   dd={dd1};
-	   AppendTo[InputsData,dd],{ii,1,Nparticles}];
-	eeDist = InputsData[[,1]];
-  Close[fn];
-  Print["Done"];
+   BBbremsData = {};
+   Do[dd1 = Read[fn,Real];
+      dd2 = Read[fn,Real];
+      dd3 = Read[fn,Real];
+      dd4 = Read[fn,Real];
+      dd5 = Read[fn,Real];
+      dd6 = Read[fn,Real];
+      dd = {dd1,dd2,dd3,dd4,dd5,dd6};
+      AppendTo[BBbremsData,dd],{ii,1,Nparticles}];
   
 	beamR = {startPos,{xDist,xpDist,yDist,ypDist,zDist,eeDist,Table[1,{Nparticles}]}};
 	Print["the number of particles is = ",Length[beamR[[2,7]]]];

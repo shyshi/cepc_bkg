@@ -44,56 +44,6 @@ Write[fn,startEleList[ii][3],"   ",startEleList[ii][1],"   ",startEleList[ii][2]
 Close[fn];
 ];
 
-Trackmulti1[beamR_,nturns_,Nparticles_,p1_,p2_,p3_]:=Module[{},
-!This module will simulate Nparticles particles(beamR) circling nturns turns in the ring
-!and p1,p2,p3 are three record point
-!the start point in the region from IP to P1
-Print["This command will simulate ",Nparticles," particles circling ", nturns," turns along the whole ring"," and record the information of particles lost in the IR when they lost"];  
-startpos=beamR[[1]];
-beam1=beamR;
-nlost={};
-cir=LINE["S",p3];
-
-For[ii=1,ii<=nturns,ii++,
-nsur1=Apply[Plus,beam1[[2,7]]];
-beam2=Tracking[beam1,p1];
-nsur2=Apply[Plus,beam2[[2,7]]];
-Print["the number of particle lost in the downstream of ",ii,"th turn is: ",nsur1-nsur2];
-
-Do[
-If[beam1[[2,7,np]]==1&&beam2[[2,7,np]]==0,beami = {beam1[[1]],{{beam1[[2,1,np]]},{beam1[[2,2,np]]},{beam1[[2,3,np]]},{beam1[[2,4,np]]},{beam1[[2,5,np]]},{beam1[[2,6,np]]},{beam1[[2,7,np]]}}},Continue[]];
-Do[ beamO = TrackParticles[beami,iii];
-If[beamO[[2,7,1]]==0,Losswrite1[];Break[]];
-beami=beamO
-,{iii,beam1[[1]]+1,p1}]
-,{np,1,Nparticles}
-];
-
-
-beam3=Tracking[beam2,p2];
-nsur3=Apply[Plus,beam3[[2,7]]];
-beam4=Tracking[beam3,p3];
-nsur4=Apply[Plus,beam4[[2,7]]];
-Print["the number of particle lost in the upstream of ",ii,"th turn is: ",nsur3-nsur4];
-!Print[nsur4,"survived after ",ii," turns tracking"];
-Do[
-If[beam3[[2,7,npp]]==1&&beam4[[2,7,npp]]==0,beami = {beam3[[1]],{{beam3[[2,1,npp]]},{beam3[[2,2,npp]]},{beam3[[2,3,npp]]},{beam3[[2,4,npp]]},{beam3[[2,5,npp]]},{beam3[[2,6,npp]]},{beam3[[2,7,npp]]}}},Continue[]];
-Do[beamO = TrackParticles[beami,iii];
-If[beamO[[2,7,1]]==0,Losswrite2[];Break[]];
-beami=beamO
-,{iii,beam3[[1]]+1,p3}],
-{npp,1,Nparticles}
-];
-
-
-beam1=beam4;
-beam1[[1]]=1;
-AppendTo[nlost,{ii,nsur1-nsur2,nsur3-nsur4,nsur4}];
-T1[];
-];
-
-Print[nlost];
-];
 
 !*********************************************************************************************************************************************************************
 !*********************************************************************************************************************************************************************
@@ -486,46 +436,20 @@ Print[nlost];
 !*********************************************************************************************************************************************************************
 
 
-TrackSingle1[beamR_,p2_,p3_]:=Module[{},
+TrackSingle1[beamR_,listCo_,p2_,p3_]:=Module[{},
   Print["Single"];
-  beams1=beamR;
   ii=0;
+  beamCo=beamR;
+  If[ Length[listCo]>0,
+  For[iCo=1,iCo<=Length[listCo],iCo++,
+    Print[listCo[iCo]];
+    beamCo=TrackCollimator[beamCo,listCo[iCo],Nparticles];
+  ];
+  ];
+  beams1=beamCo;
   startPos=beams1[[1]];
   nsurs1=Apply[Plus,beams1[[2,7]]];
   beams2=Tracking[beams1,p2];
-  nsurs2=Apply[Plus,beams2[[2,7]]];
-  beams3=Tracking[beams2,p3];
-  nsurs3=Apply[Plus,beams3[[2,7]]];
-  Do[
-  If[beams2[[2,7,npp]]==1&&beams3[[2,7,npp]]==0,beami = {beams2[[1]],{{beams2[[2,1,npp]]},{beams2[[2,2,npp]]},{beams2[[2,3,npp]]},{beams2[[2,4,npp]]},{beams2[[2,5,npp]]},{beams2[[2,6,npp]]},{beams2[[2,7,npp]]}}},Continue[]];
-  Do[beamO = TrackParticles[beami,iii];
-  If[beamO[[2,7,1]]==0,Losswrite2[];Break[]];
-  beami=beamO
-  ,{iii,p2+1,p3}],
-  {npp,1,Nparticles}
-  ];
-  ];
-
-TrackSingle1co[beamR_,pbfco_,pafco_,p2_,p3_]:=Module[{},
-  Print["Single"];
-  beams1=beamR;
-  ii=0;
-  startPos=beams1[[1]];
-  nsurs1=Apply[Plus,beams1[[2,7]]];
-  beambfco=Tracking[beams1,pbfco];
-  nsurbfco=Apply[Plus,beambfco[[2,7]]];
-  beamafco=Tracking[beambfco,pafco];
-  nsurafco=Apply[Plus,beamafco[[2,7]]];
-  Print[nsurbfco-nsurafco];
-  safco=LINE["S",pafco];
-  
-  If[safco>cir/2,safco=safco-cir];
-  Do[
-  If[beambfco[[2,7,npp]]==1&&beamafco[[2,7,npp]]==0,Print["True"];
-  Write[fnwrite,ii," ",safco," ",beamafco[[2,1,npp]]," ",beamafco[[2,2,npp]]," ",beamafco[[2,3,npp]]," ",beamafco[[2,4,npp]]," ",beamafco[[2,5,npp]]," ",beamafco[[2,6,npp]]]]
-  ,{npp,1,Nparticles}
-  ];
-  beams2=Tracking[beamafco,p2];
   nsurs2=Apply[Plus,beams2[[2,7]]];
   beams3=Tracking[beams2,p3];
   nsurs3=Apply[Plus,beams3[[2,7]]];
@@ -574,7 +498,7 @@ TrackSingle3[beamR_,p1_]:=Module[{},
   ];
 
 
-Trackmulti1co[beamR_,nturns_,Nparticles_,p1_,pbfco_,pafco_,p2_,p3_]:=Module[{},
+Trackmulti1[beamR_,nturns_,Nparticles_,listCo_,p1_,p2_,p3_]:=Module[{},
 !This module will simulate Nparticles particles(beamR) circling nturns turns in the ring
 !and p1,p2,p3 are three record point
 !the start point in the region from IP to P1
@@ -599,32 +523,28 @@ beami=beamO
 ,{np,1,Nparticles}
 ];
 
-beambfco=Tracking[beam2,pbfco];
-nsurbfco=Apply[Plus,beambfco[[2,7]]];
-beamafco=Tracking[beambfco,pafco];
-nsurafco=Apply[Plus,beamafco[[2,7]]];
-Print["the number of particle lost in the upstream collimator of ",ii,"th turn is: ",nsurbfco-nsurafco];
-!Print[nsur4,"survived after ",ii," turns tracking"];
-safco=LINE["S",pafco];
-cir=LINE["S",-1];
-If[safco>cir/2,safco=safco-cir];
-Do[
-If[beambfco[[2,7,npp]]==1&&beamafco[[2,7,npp]]==0,
-Write[fnwrite,ii," ",safco," ",beamafco[[2,1,npp]]," ",beamafco[[2,2,npp]]," ",beamafco[[2,3,npp]]," ",beamafco[[2,4,npp]]," ",beamafco[[2,5,npp]]," ",beamafco[[2,6,npp]]]]
-,{npp,1,Nparticles}
+beamCo=beam2;
+
+If[Length[listCo]>0,
+  For[iCo=1,iCo<=Length[listCo],iCo++,
+    beamCo=TrackCollimator[beamCo,listCo[iCo],Nparticles];
+  ];
 ];
 
 
-beam3=Tracking[beamafco,p2];
+beam3=Tracking[beamCo,p2];
 nsur3=Apply[Plus,beam3[[2,7]]];
 beam4=Tracking[beam3,p3];
 nsur4=Apply[Plus,beam4[[2,7]]];
 Print["the number of particle lost in the upstream of ",ii,"th turn is: ",nsur3-nsur4];
 !Print[nsur4,"survived after ",ii," turns tracking"];
 Do[
-If[beambfco[[2,7,npp]]==1&&beamafco[[2,7,npp]]==0,beam0 = {beambfco[[1]],{{beambfco[[2,1,npp]]},{beambfco[[2,2,npp]]},{beambfco[[2,3,npp]]},{beambfco[[2,4,npp]]},{beambfco[[2,5,npp]]},{beambfco[[2,6,npp]]},{beambfco[[2,7,npp]]}}},Continue[]];
-iii=pafco;
-Losswrite2[];Continue[],{npp,1,Nparticles}
+If[beam3[[2,7,npp]]==1&&beam4[[2,7,npp]]==0,beami = {beam3[[1]],{{beam3[[2,1,npp]]},{beam3[[2,2,npp]]},{beam3[[2,3,npp]]},{beam3[[2,4,npp]]},{beam3[[2,5,npp]]},{beam3[[2,6,npp]]},{beam3[[2,7,npp]]}}},Continue[]];
+Do[beamO = TrackParticles[beami,iii];
+If[beamO[[2,7,1]]==0,Losswrite2[];Break[]];
+beami=beamO
+,{iii,beam3[[1]]+1,p3}],
+{npp,1,Nparticles}
 ];
 
 
@@ -769,20 +689,21 @@ Print[nlost];
 ];
 
 TrackCollimator[beamR_,pCo_,Nparticles_]:=Module[{},
-!This module is used to output the collimator losts
+!This module is used to output the collimator losts, or the lost at any particular interested point
   pBfCo=pCo-1;
   pAfCo=pCo+1;
   beamBfCo=Tracking[beamR,pBfCo];
   beamAfCo=Tracking[beamBfCo,pAfCo];
   Do[
-  If[beamBfCo[[2,7,npp]]==1&&beamAfco[[2,7,npp]]==0,
+  If[beamBfCo[[2,7,npp]]==1&&beamAfCo[[2,7,npp]]==0,
   beami = {beamBfCo[[1]],{{beamBfCo[[2,1,npp]]},{beamBfCo[[2,2,npp]]},{beamBfCo[[2,3,npp]]},{beamBfCo[[2,4,npp]]},{beamBfCo[[2,5,npp]]},{beamBfCo[[2,6,npp]]},{beamBfCo[[2,7,npp]]}}};
-  beam0 = TrackParticles[beami,pCo];
+  beamO = TrackParticles[beami,pCo];
   sCo=LINE["S",pCo];
   cir=LINE["S",-1];
-  If[sCo<cir/2,Losswrite1,Losswrite2];
-  ];
+  If[sCo>cir/2,sCo=sCo-cir];
+  Write[fnwrite,ii,"   ",sCo,"  ",beamO[[2,1,1]]," ",beamO[[2,2,1]]," ",beamO[[2,3,1]]," ",beamO[[2,4,1]]," ",beamO[[2,5,1]]," ",beamO[[2,6,1]]];Print["Collimator!"];
+  ]
   ,{npp,1,Nparticles}
   ];
-  beamR=beamAfCo;
+  beamAfCo
 ];
