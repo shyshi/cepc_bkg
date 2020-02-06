@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export OFToolkit="/Users/haoyushi/Development/GitHub/cepc_bkg"
+export PATH=${OFToolkit}/bin:$PATH

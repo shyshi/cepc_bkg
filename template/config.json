@@ -1,0 +1,8 @@
+{
+        "JobType" : "BGS2",
+        "Eta" : 0.015,
+        "GenerateLength" : 3000,
+        "Turns" : 50,
+        "ToolkitPath" : "/Users/haoyushi/Development/GitHub/cepc_bkg/bin/",
+        "SADPath" : "/Applications/SAD/SAD/bin/gs"
+}
