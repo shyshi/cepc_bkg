@@ -1,14 +1,13 @@
 !title
 READ "../lattice.sad";
-!READ "./CEPC_RING_v20171218_by_1.5mm_sext_fam-new1_slice.sad";
 MOMENTUM = 120000000000 ;
 FFS USE=RING;
 cell;
 calc;emit;
-Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib1.h"];
-Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib2.h"];
-Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib3.h"];
-Get["/cefs/higgs/shihy/work/cepc_bkg/Libs/CEPC_BG_lib4.h"]; 
+Get["/Users/haoyushi/Development/GitHub/cepc_bkg/libs/CEPC_BG_lib1.h"];
+Get["/Users/haoyushi/Development/GitHub/cepc_bkg/libs/CEPC_BG_lib2.h"];
+Get["/Users/haoyushi/Development/GitHub/cepc_bkg/libs/CEPC_BG_lib3.h"];
+Get["/Users/haoyushi/Development/GitHub/cepc_bkg/libs/CEPC_BG_lib4.h"]; 
 
 FFS;
 

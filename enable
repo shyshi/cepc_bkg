@@ -2,3 +2,8 @@
 
 export OFToolkit="/Users/haoyushi/Development/GitHub/cepc_bkg"
 export PATH=${OFToolkit}/bin:$PATH
+
+export SADPath="/Applications/SAD/SAD"
+alias SAD=$SADPath/bin/gs
+
+sed -i "s/66TOOLPAHT99/\/Users\/haoyushi\/Development\/GitHub\/cepc_bkg/g" $OFToolkit/template/sad_BGS2

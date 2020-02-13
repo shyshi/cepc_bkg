@@ -47,4 +47,4 @@ def bgs2generator(eta,gLength):
         fn.close()
 
 parameters=json.load(open('config.json'))
-bgs2generator(parameters['Eta'],parameters['GenerateLength'])
+bgs2generator(parameters['Eta'],parameters['GenerateLength']) 
