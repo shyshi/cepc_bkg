@@ -1,4 +1,4 @@
-#!/opt/local/bin/python3
+#!66PYTHONPATH99
 
 from time import localtime, strftime
 import os

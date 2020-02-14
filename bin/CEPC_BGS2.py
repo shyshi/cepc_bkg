@@ -1,4 +1,4 @@
-#!/opt/local/bin/python3
+#!66PYTHONPATH99
 
 import random as ra
 import matplotlib.pyplot as plt

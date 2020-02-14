@@ -15,12 +15,9 @@ listCo={9539,9549,25563,25576};
 GenerateLength=3000;
 T0[];
 
-BGS2TrackCommand[listCo,GenerateLength];
+PyBSTrackCommand[listCo];
 
 T1[];
 
 end;
 abort;
-
-
-
