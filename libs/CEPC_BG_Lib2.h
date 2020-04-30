@@ -437,13 +437,16 @@ Print[nlost];
 
 
 TrackSingle1[beamR_,listCo_,p2_,p3_]:=Module[{},
-  Print["Single"];
   ii=0;
   beamCo=beamR;
-  If[ Length[listCo]>0,
-  For[iCo=1,iCo<=Length[listCo],iCo++,
+  startPos=beamR[[1]];
+  nCo=Length[listCo];
+  If[nCo>0,
+  Do[
+    If[(listCo[iCo]<startPos),Continue[]];
     Print[listCo[iCo]];
-    beamCo=TrackCollimator[beamCo,listCo[iCo],Nparticles];
+    beamCo=TrackCollimator[beamCo,listCo[iCo],Nparticles],
+    {iCo,1,nCo}
   ];
   ];
   beams1=beamCo;
@@ -527,7 +530,7 @@ beamCo=beam2;
 
 If[Length[listCo]>0,
   For[iCo=1,iCo<=Length[listCo],iCo++,
-    beamCo=TrackCollimator[beamCo,listCo[iCo],Nparticles];
+    beamCo=TrackCollimator[ii,beamCo,listCo[iCo],Nparticles];
   ];
 ];
 
@@ -688,7 +691,7 @@ beam3=Tracking[beamafco,p2];
 Print[nlost];
 ];
 
-TrackCollimator[beamR_,pCo_,Nparticles_]:=Module[{},
+TrackCollimator[ii_,beamR_,pCo_,Nparticles_]:=Module[{},
 !This module is used to output the collimator losts, or the lost at any particular interested point
   pBfCo=pCo-1;
   pAfCo=pCo+1;
@@ -696,12 +699,11 @@ TrackCollimator[beamR_,pCo_,Nparticles_]:=Module[{},
   beamAfCo=Tracking[beamBfCo,pAfCo];
   Do[
   If[beamBfCo[[2,7,npp]]==1&&beamAfCo[[2,7,npp]]==0,
-  beami = {beamBfCo[[1]],{{beamBfCo[[2,1,npp]]},{beamBfCo[[2,2,npp]]},{beamBfCo[[2,3,npp]]},{beamBfCo[[2,4,npp]]},{beamBfCo[[2,5,npp]]},{beamBfCo[[2,6,npp]]},{beamBfCo[[2,7,npp]]}}};
-  beamO = TrackParticles[beami,pCo];
-  sCo=LINE["S",pCo];
-  cir=LINE["S",-1];
-  If[sCo>cir/2,sCo=sCo-cir];
-  Write[fnwrite,ii,"   ",sCo,"  ",beamO[[2,1,1]]," ",beamO[[2,2,1]]," ",beamO[[2,3,1]]," ",beamO[[2,4,1]]," ",beamO[[2,5,1]]," ",beamO[[2,6,1]]];Print["Collimator!"];
+  beamO = {beamAfCo[[1]],{{beamAfCo[[2,1,npp]]},{beamAfCo[[2,2,npp]]},{beamAfCo[[2,3,npp]]},{beamAfCo[[2,4,npp]]},{beamAfCo[[2,5,npp]]},{beamAfCo[[2,6,npp]]},{beamAfCo[[2,7,npp]]}}};
+  iii=pAfCo;
+  sCo=LINE["S",iii];
+  If[sCo>cir/2,sCo=sCo-=cir];
+  Write[fnwrite,ii," ",sCo," ",beamAfCo[[2,1,npp]]," ",beamAfCo[[2,2,npp]]," ",beamAfCo[[2,3,npp]]," ",beamAfCo[[2,4,npp]]," ",beamAfCo[[2,5,npp]]," ",beamAfCo[[2,6,npp]]];
   ]
   ,{npp,1,Nparticles}
   ];

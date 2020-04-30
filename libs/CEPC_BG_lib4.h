@@ -63,6 +63,7 @@ BGS2TrackCommand[listCo_,GenereteLength_]:=Module[{},
         Close[fn];
         Close[fnwrite];
         Close[fphlost];
+        Print[total];
 ];
 
 bbbremTrackCommand[listCo_]:=Module[{},
@@ -153,6 +154,7 @@ BTHTrackCommand[listCo_,GenereteLength_]:=Module[{},
         Close[fn];
         Close[fnwrite];
         Close[fphlost];
+        Print[total];
 ];
 
 PyBSTrackCommand[listCo_]:=Module[{},
