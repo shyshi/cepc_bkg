@@ -37,7 +37,6 @@ MakeHistgram[Hlist_,Hrange_,Nbin_,TotalIntegral_,flabel_]:=Module[{},
 
 
 MakeRBBdistributionBBbrem[]:=Module[{},
-          Print["fn =",fn];
           Print["Nparicles = ",Nparticles];
           BBbremsData = {};
           Do[dd1 = Read[fn,Real];
@@ -122,9 +121,9 @@ MakeBTHdistribution[Nparticles_,pos_]:=Module[{},
         zDist = sigmazrandom;
         eeDist = sigmaerandom;
 
-        beamR0 = Tracking[{1,{xDist,xpDist,yDist,ypDist,zDist,eeDist,Table[1,{Nparticles}]}},pos];
+        beamR = {pos,{xDist,xpDist,yDist,ypDist,zDist,eeDist,Table[1,{Nparticles}]}};
 !        Print[beamR0[2][6]];
-        beamR = {beamR0[1],{beamR0[2][1],beamR0[2][2],beamR0[2][3],beamR0[2][4],beamR0[2][5],beamR0[2][6]+BBbremsData[[,1]],beamR0[2][7]}};
+!        beamR = {beamR0[1],{beamR0[2][1],beamR0[2][2],beamR0[2][3],beamR0[2][4],beamR0[2][5],beamR0[2][6]+BBbremsData[[,1]],beamR0[2][7]}};
 !        Print[BBbremsData[[,1]]];
 !        Print[beamR[2][6]];
 ];

@@ -1,6 +1,6 @@
 !! Library for TrackCommands
 
-BGS2TrackCommand[listCo_,GenereteLength_]:=Module[{},
+BGS2TrackCommand[listCo_,GenereteFrom_,GenereteTo_]:=Module[{},
         SetAperture[];
         InsertCollimator[listCo];
         SetIpParameter[];
@@ -32,29 +32,31 @@ BGS2TrackCommand[listCo_,GenereteLength_]:=Module[{},
         BLApert=ExtractBeamLine[];
 
         For[i=1,i<=Length[BLApert]-1,i++,
-        If[(LINE["S",i]<=6.01)&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
+        If[(GenerateTo==0)&&(LINE["S",i]<=6.01)&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
         Nparticles=Round[bth0*nt*LINE["L",i]];
         MakeBTHdistribution[Nparticles,i];
+        total=total+Nparticles;
         Print[i,"th element ",LINE["NAME",i],".  ",LINE["L",i],"m long, ",Length[beamR[2][6]]," events generated here"];
 
         For[count=1,count<=Length[beamR[2][6]],count++,
         Write[fphlost,LINE["S",i],' ',beamR[[2,1,count]],' ',beamR[[2,2,count]],' ',beamR[[2,3,count]],' ',beamR[[2,4,count]],' ',beamR[[2,5,count]],' ',beamR[[2,6,count]]];
         ];
 
-        Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3];
+        Trackmulti1[beamR,nturns,listCo,p1,p2,p3];
 
         ];
 
-        If[(LINE["S",i]>=cir-GenerateLength)&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
+        If[(LINE["S",i]>=cir-Abs[GenerateFrom])&&(LINE["S",i]<=cir-Abs[GenerateTo])&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
         Nparticles=Round[bth0*nt*LINE["L",i]];
         MakeBTHdistribution[Nparticles,i];
+        total=total+Nparticles;
         Print[i,"th element ",LINE["NAME",i],".  ",LINE["L",i],"m long, ",Length[beamR[2][6]]," events generated here"];
 
         For[count=1,count<=Length[beamR[2][6]],count++,
         Write[fphlost,LINE["S",i],' ',beamR[[2,1,count]],' ',beamR[[2,2,count]],' ',beamR[[2,3,count]],' ',beamR[[2,4,count]],' ',beamR[[2,5,count]],' ',beamR[[2,6,count]]];
         ];
 
-        If[i<p2,Print["Track2"];TrackSingle1[beamR,listCo,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,Nparticles,listCo,p1,p2,p3]];
+        If[i<p2,Print["Track2"];TrackSingle1[beamR,listCo,p2,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,listCo,p1,p2,p3],Print["Track3"];TrackSingle2[beamR,p3];beamR=beams3;beamR[[1]]=1;Trackmulti1[beamR,nturns,listCo,p1,p2,p3]];
 
         ];
 

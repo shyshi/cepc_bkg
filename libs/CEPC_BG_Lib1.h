@@ -76,7 +76,6 @@ SetAperture[]:=Module[{ll},
                    FFS["cell calc",6];
                    LineN = Length[BLApert];
                    Print["Totally elements =",LineN];
-                   Print[BLApert];
                      ];
 
 
@@ -166,8 +165,9 @@ SliceBend[BendName_,delta_]:=Module[{},
 
 InsertCollimator[listCo_]:=Module[{},
 !! CDR Design, 4 Horizontal Collimators
-  For[iCo=Length[listCo],i<1,i--,
-    BLApert = BeamLine[Insert[BLApert,APTX,listCo[iCo]]];  
+  Do[
+    BLApert = BeamLine[Insert[BLApert,APTX,listCo[iCo]]]; 
+    ,{iCo,-Length[listCo],-1} 
   ];
   FFS["USE BLApert"];
   FFS["CELL"];
