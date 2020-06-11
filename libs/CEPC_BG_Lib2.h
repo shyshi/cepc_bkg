@@ -24,7 +24,7 @@ Cir = LINE["S",WholeEle[[-1]]];
 !Step = 50e-2;
 !startEleList = {{1,0,"RINGB"}};
 !LastEle = "RINGB";
-startEleList = {{1,0,LINE["NAME",1]}};
+startEleList = {{1,0,LINE["NAME",1]}}; 
 LastEle = LINE["NAME",1];
 
 Do[
