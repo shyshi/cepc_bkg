@@ -88,6 +88,7 @@ bbbremTrackCommand[listCo_]:=Module[{},
 
 
         MakeRBBdistributionBBbrem[];
+        i=0;
         Trackmulti1[beamR,nturns,Nparticles,p1,p2,p3];
         Close[fn];
         Close[fnwrite];

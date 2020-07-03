@@ -775,7 +775,7 @@ TrackCollimator[ii_,beamR_,pCo_]:=Module[{},
   iii=pAfCo;
   sCo=LINE["S",iii];
   If[sCo>cir/2,sCo=sCo-=cir];
-  Write[fnwrite,ii," ",sCo," ",beamAfCo[[2,1,npp]]," ",beamAfCo[[2,2,npp]]," ",beamAfCo[[2,3,npp]]," ",beamAfCo[[2,4,npp]]," ",beamAfCo[[2,5,npp]]," ",beamAfCo[[2,6,npp]]];
+  Write[fnwrite,i,"   ",ii," ",sCo," ",beamAfCo[[2,1,npp]]," ",beamAfCo[[2,2,npp]]," ",beamAfCo[[2,3,npp]]," ",beamAfCo[[2,4,npp]]," ",beamAfCo[[2,5,npp]]," ",beamAfCo[[2,6,npp]]];
   lostParticles=Append[lostParticles,npp];
   ]
   ,{npp,1,Nparticles}

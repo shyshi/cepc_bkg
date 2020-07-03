@@ -1,0 +1,74 @@
+!title
+READ "../template/cepc_28_new.sad";
+MOMENTUM = 120000000000 ;
+FFS USE=RING;
+cell;
+calc;emit;
+Get["../libs/CEPC_BG_lib1.h"];
+Get["../libs/CEPC_BG_lib2.h"];
+Get["../libs/CEPC_BG_lib3.h"];
+Get["../libs/CEPC_BG_lib4.h"]; 
+
+RFSW;
+RAD;
+PHOTONS;
+FLUC;
+LOSSMAP;
+FFS;
+
+SetApertureNew[];
+cName={"D1O.10","D1O.14","D1I.1894","D1I.1897"};
+listCo=InsertCollimator[cName];
+SetIpParameter[];
+cir=LINE["S",-1];
+BLApert=ExtractBeamLine[];
+ll = Length[BLApert];
+Print[ll];
+
+bth0=1.5e11*242/(61.94*60*60)/2997.43/100016.35;
+        nt=1000;
+total=0;
+fin = "BGS2.inp";
+fout = "BGS2.out";
+        nturns = 40;
+        p1 = 1208;
+        p2 = LINE["POSITION","APT2.7158"];
+        p3 = LINE["POSITION","IP12"];
+        NIP3 = LINE["POSITION","IP3"];
+        fn = OpenRead[fin];
+        fnwrite = OpenAppend[fout];
+
+        For[i=1,i<=ll-1,i++,
+        If[(i<p1)&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
+        Nparticles=Round[bth0*nt*LINE["L",i]];
+        MakeBTHdistribution[Nparticles,i];
+        Print[i,"th element ",LINE["NAME",i],".  ",LINE["L",i],"m long, ",Length[beamR[2][6]]," events generated here"];
+
+        beam2=TrackParticles[beamR,p1,1,40];
+        Print[beam2];
+        total=total+Nparticles;
+        Do[
+        If[beam2[2,7,ii]==0,
+            LossPisition=LINE["S",beam[2,8,ii]];
+            If[LossPisition>cir/2,LossPisition=LossPisition-cir];
+            Write[fnwrite,beam2[2,9,ii],' ',LINE["S",beam2[2,8,ii]],' ',beam2[2,1,ii],' ',beam2[2,2,ii],' ',beam2[2,3,ii],' ',beam2[2,4,ii],' ',beam2[2,5,ii],' ',beam2[2,6,ii]];
+        ]
+        ,{ii,1,Length[beam2[2,7]]}];
+        ];
+
+        If[(i>=p2)&&(Not[StringMatchQ[LINE["NAME",i],"APT*"]]),
+        Nparticles=Round[bth0*nt*LINE["L",i]];
+        MakeBTHdistribution[Nparticles,i];
+        Print[i,"th element ",LINE["NAME",i],".  ",LINE["L",i],"m long, ",Length[beamR[2][6]]," events generated here"];
+
+        beam2=TrackParticles[beamR,p1,1,40];
+        total=total+Nparticles;
+        Do[
+        If[beam2[2,7,ii]==0,
+            Write[fnwrite,beam2[2,9,ii],' ',LINE["S",beam2[2,8,ii]],' ',beam2[2,1,ii],' ',beam2[2,2,ii],' ',beam2[2,3,ii],' ',beam2[2,4,ii],' ',beam2[2,5,ii],' ',beam2[2,6,ii]];
+        ]
+        ,{ii,1,Length[beam2[2,7]]}];
+
+        ];
+
+        ];
